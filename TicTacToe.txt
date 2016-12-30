@@ -1,0 +1,101 @@
+from IPython.display import clear_output
+from __future__ import print_function
+
+def display_board(board):
+    clear_output()
+    print('   |   |')
+    print(' ' + board[7] + ' | ' + board[8] + ' | ' + board[9])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + board[4] + ' | ' + board[5] + ' | ' + board[6])
+    print('   |   |')
+    print('-----------')
+    print('   |   |')
+    print(' ' + board[1] + ' | ' + board[2] + ' | ' + board[3])
+    print('   |   |')
+
+
+def choose():
+    
+    p1 = raw_input('CHOOSE x OR o?')
+    if p1=='x':
+        p2 = 'o'
+    else:
+        p2 ='x'
+    return p1,p2
+
+
+def inp(board,p,pos):
+    board[pos] = p
+
+def win(board,p):
+    if((board[1]==p and board[2]==p and board[3] == p) or
+       (board[1]==p and board[5]==p and board[9] == p) or
+       (board[1]==p and board[4]==p and board[7] == p) or
+       (board[3]==p and board[6]==p and board[9] == p) or
+       (board[9]==p and board[8]==p and board[7] == p) or
+       (board[8]==p and board[5]==p and board[2] == p) or 
+       (board[4]==p and board[5]==p and board[6] == p) or
+       (board[7]==p and board[5]==p and board[3] == p)
+      ):
+        return True
+    
+    
+def start():
+    (p1,p2) = choose()
+    play = True
+    board = [' ']*10
+    turn ='p1'
+    while play:
+            if turn == 'p1':
+                display_board(board)
+                pos = int(raw_input('Enter The Position...'))
+                while not check(board,pos):
+                    pos = int(raw_input('You Entered A Position Which Is Already Exist....Try Again!!!'))
+                inp(board,p1,pos)
+                if win(board,p1):
+                    display_board(board)
+                    print('PLAYER1 WON!!!') 
+                    break
+                else:
+                    if full(board):
+                        display_board(board)
+                        print('DRAW!!!')
+                        break    
+                turn = 'p2'
+            else:
+                turn = 'p1'
+                display_board(board)
+                pos = int(raw_input('Enter The Position...'))
+                while not check(board,pos):
+                    pos = int(raw_input('You Entered A Position Which Is Already Exist....Try Again!!!'))
+                inp(board,p2,pos)
+                if win(board,p2):
+                    display_board(board)
+                    print('PLAYER2 WON!!!') 
+                    break
+                else:
+                    if full(board):
+                        display_board(board)
+                        print('DRAW!!!')
+                        break
+            
+
+
+def check(board,pos):
+    if board[pos] == ' ':
+        return True
+
+def empty(board):
+    if (board[1] == " " or board[2] == " " or board[3] == " " or board[4] == " " or board[5] == " " or board[6] == " " or board[7] == " " or board[8] == " " or board[9] == " "):
+        return True
+
+def full(board):
+    if empty(board):
+        return False
+    else:
+        return True
+
+start()
+        
